@@ -1,3 +1,3 @@
 /* عنوان نفق الحجز الإلكتروني (الذي يوصّل بالخادم في المستشفى). عدّله بعد إنشاء النفق، بدون "/" في الآخر.
-   مثال: window.BOOK_API='https://book.example.com'; */
-window.BOOK_API='';
+   
+window.BOOK_API = 'https://measures-away-steel-catalogue.trycloudflare.com';
