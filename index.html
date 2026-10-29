@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>حجز موعد عيادة - مستشفى طنطا العسكري</title>
+<script src="config.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--navy:#0f2342;--navy2:#1b3a68;--gold:#b8923f;--bg:#f3f5f9;--card:#fff;--ink:#16233a;--mut:#5b6b85;--line:#d9e0ec;--ok:#1d7a46;--bad:#b3261e;--warn:#8a5a00}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 17px/1.6 "IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:18px 16px 22px;text-align:center}
+header img{width:64px;height:64px;border-radius:50%;background:#fff;padding:4px;display:block;margin:0 auto 8px}
+header h1{margin:0;font:700 21px/1.4 "Reem Kufi","IBM Plex Sans Arabic",sans-serif}
+header p{margin:2px 0 0;color:#cbd6ea;font-size:15px}
+main{max-width:620px;margin:-12px auto 40px;padding:0 14px}
+.tabs{display:flex;gap:8px;margin:0 0 12px}
+.tab{flex:1;border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:12px;padding:12px;font:inherit;font-weight:700;cursor:pointer;min-height:48px}
+.tab[aria-selected=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(15,35,66,.06)}
+.card h2{margin:0 0 12px;font-size:18px;color:var(--navy)}
+.note{background:#fff8e6;border:1px solid #ecd59a;color:var(--warn);border-radius:12px;padding:10px 12px;font-size:15px;margin-bottom:14px}
+label{display:block;font-weight:700;margin:12px 0 4px;font-size:15px}
+.req::after{content:" *";color:var(--bad)}
+input,select{width:100%;min-height:50px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus,button:focus-visible{outline:3px solid #8fb0e6;outline-offset:1px;border-color:var(--navy2)}
+.num{direction:ltr;text-align:right;letter-spacing:.5px}
+.hint{font-size:13.5px;color:var(--mut);margin-top:3px}
+.err{color:var(--bad);font-size:14px;margin-top:3px;min-height:0}
+.bad{border-color:var(--bad)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:420px){.row{grid-template-columns:1fr}}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:8px;margin-top:6px}
+.day{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;text-align:center;font:inherit;cursor:pointer;min-height:68px;color:var(--ink)}
+.day b{display:block;font-size:16px}
+.day small{display:block;color:var(--mut);font-size:13px}
+.day[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.day[aria-pressed=true] small{color:#d8e2f4}
+.day:disabled{background:#eef0f4;color:#9aa5b8;cursor:not-allowed;border-style:dashed}
+.day.low small{color:var(--warn);font-weight:700}
+.btn{width:100%;min-height:54px;border:0;border-radius:14px;background:var(--gold);color:#fff;font:700 18px "IBM Plex Sans Arabic",sans-serif;cursor:pointer;margin-top:16px}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.sec{background:#fff;color:var(--navy);border:1.5px solid var(--navy);margin-top:10px}
+.msg{border-radius:12px;padding:12px;margin-top:12px;font-size:15.5px}
+.msg.e{background:#fdecea;border:1px solid #f1b5b0;color:#7d1a14}
+.empty{color:var(--mut);padding:8px 0}
+.hp{position:absolute;top:0;right:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.ticket{border:2px solid var(--navy);border-radius:18px;background:#fff;overflow:hidden;margin-bottom:12px}
+.ticket .th{background:var(--navy);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ticket .th b{font-size:17px}
+.ticket .tb{padding:16px}
+.big{display:flex;gap:10px;margin:4px 0 14px}
+.big div{flex:1;border-radius:14px;background:#eef3fb;text-align:center;padding:12px 6px}
+.big small{display:block;color:var(--mut);font-size:13.5px}
+.big strong{display:block;font:700 30px/1.2 "IBM Plex Mono","Segoe UI",monospace;color:var(--navy);direction:ltr}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:16px}
+.kv span:nth-child(odd){color:var(--mut)}
+.ok{color:var(--ok);font-weight:700}
+.safe{font-size:14px;color:var(--mut);text-align:center;margin-top:18px}
+.safe a{color:var(--navy2)}
+[hidden]{display:none!important}
+@media print{header,.tabs,.noprint,.btn,.safe{display:none!important}body{background:#fff}main{margin:0}.ticket{border-color:#000}}
+</style>
+</head>
+<body>
+<header>
+  <img src="logo.png" alt="" onerror="this.remove()">
+  <h1>مستشفى طنطا العسكري</h1>
+  <p>حجز موعد بالعيادات الخارجية</p>
+</header>
+<main>
+  <div id="closed" class="card" hidden><h2>الحجز الإلكتروني متوقف حاليًا</h2><p>برجاء التواصل مع استقبال العيادات الخارجية.</p></div>
+  <div id="loading" class="card empty">جارٍ التحميل…</div>
+
+  <div id="app" hidden>
+    <div class="tabs noprint" role="tablist">
+      <button class="tab" role="tab" id="t-new" aria-selected="true">حجز جديد</button>
+      <button class="tab" role="tab" id="t-find" aria-selected="false">استعلام عن حجزي</button>
+    </div>
+
+    <section id="v-new">
+      <div id="note" class="note" hidden></div>
+
+      <form id="form" class="card" novalidate autocomplete="off">
+        <h2>١. بيانات المريض</h2>
+        <input class="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="req" for="rel">صفة المريض</label>
+        <select id="rel"></select>
+        <div class="hint" id="rel-h">اختر «شخصه» إذا كان المريض هو صاحب الحق في العلاج نفسه.</div>
+
+        <label class="req" for="rank">الرتبة</label>
+        <select id="rank"><option value="">اختر الرتبة</option></select>
+        <div class="hint" id="rank-h"></div>
+
+        <div id="svc-w"><label for="svc">الحالة</label>
+        <select id="svc"><option value="">اختر الحالة</option><option>خدمة</option><option>معاش</option></select>
+        <div class="err" id="e-svc"></div></div>
+
+        <div id="arm-w"><label for="arm">السلاح</label>
+        <select id="arm"><option value="">اختر السلاح</option></select>
+        <div class="err" id="e-arm"></div></div>
+
+        <label class="req" for="name">اسم المريض</label>
+        <input id="name" maxlength="60" autocomplete="off">
+        <div class="err" id="e-name"></div>
+
+        <label class="req" for="nid">الرقم القومي للمريض</label>
+        <input id="nid" class="num" inputmode="numeric" maxlength="14" autocomplete="off">
+        <div class="hint"><span id="nid-n">0</span> / 14</div>
+        <div class="err" id="e-nid"></div>
+
+        <div id="mil-w">
+          <label class="req" for="mil" id="mil-l">الرقم العسكري</label>
+          <input id="mil" class="num" inputmode="numeric" maxlength="12" autocomplete="off">
+          <div class="hint" id="mil-h"></div>
+          <div class="err" id="e-mil"></div>
+        </div>
+
+        <label class="req" for="phone">رقم الموبايل</label>
+        <input id="phone" class="num" inputmode="numeric" maxlength="11" placeholder="01xxxxxxxxx" autocomplete="off">
+        <div class="err" id="e-phone"></div>
+
+        <div id="home-w"><label for="home">رقم تليفون المنزل</label>
+        <input id="home" class="num" inputmode="numeric" maxlength="11" autocomplete="off">
+        <div class="err" id="e-home"></div></div>
+
+        <div id="med-w"><label for="med">الرقم الطبي</label>
+        <input id="med" class="num" inputmode="numeric" maxlength="15" autocomplete="off">
+        <div class="err" id="e-med"></div></div>
+        <div class="hint">الحجز لأهالي محافظة الغربية.</div>
+      </form>
+
+      <div class="card" id="c2">
+        <h2>٢. العيادة والميعاد</h2>
+        <label class="req" for="clinic">العيادة</label>
+        <select id="clinic"><option value="">اختر العيادة</option></select>
+        <div id="vt-w" hidden>
+          <label class="req" for="vtype">نوع الحجز</label>
+          <select id="vtype"></select>
+        </div>
+        <label class="req" style="margin-top:16px">اليوم المتاح</label>
+        <div id="days"><div class="empty">اختر العيادة لعرض الأيام المتاحة.</div></div>
+        <div class="err" id="e-day"></div>
+
+        <div id="err" class="msg e" role="alert" hidden></div>
+        <button class="btn" id="go" type="button">تأكيد الحجز</button>
+      </div>
+    </section>
+
+    <section id="v-ticket" hidden></section>
+
+    <section id="v-find" hidden>
+      <div class="card">
+        <h2>استعلام عن موعد محجوز</h2>
+        <label class="req" for="q-nid">الرقم القومي</label>
+        <input id="q-nid" class="num" inputmode="numeric" maxlength="14" autocomplete="off">
+        <label class="req" for="q-phone">رقم الموبايل المسجل وقت الحجز</label>
+        <input id="q-phone" class="num" inputmode="numeric" maxlength="11" autocomplete="off">
+        <div id="q-err" class="msg e" hidden></div>
+        <button class="btn" id="q-go" type="button">عرض مواعيدي</button>
+      </div>
+      <div id="q-res"></div>
+    </section>
+
+    <p class="safe">لأي تعديل أو إلغاء للموعد برجاء التواصل مع استقبال العيادات الخارجية.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+var A2L=function(s){return String(s==null?'':s).replace(/[٠-٩]/g,function(c){return '٠١٢٣٤٥٦٧٨٩'.indexOf(c)}).replace(/[۰-۹]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(c)})};
+var info=null,pick=null,busy=false;
+var CATL={o:'الضباط',n:'صف الضباط',m:'المدنيين بالقوات المسلحة',c:'المدنيين'};
+var DOW=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+function el(tag,props,kids){var e=document.createElement(tag);for(var k in (props||{})){if(k==='text')e.textContent=props[k];else e.setAttribute(k,props[k])}(kids||[]).forEach(function(c){e.appendChild(c)});return e}
+function pd(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
+function fmtLong(s){var d=pd(s);return DOW[d.getDay()]+' '+d.toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'})}
+function fmtShort(s){var d=pd(s);return d.toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long'})}
+function catOf(rank){if(!info)return null;for(var i=0;i<info.ranks.length;i++)if(info.ranks[i].n===rank)return info.ranks[i].c;return null}
+function genOf(n){return /^[23]\d{13}$/.test(n)?(parseInt(n.charAt(12),10)%2===1?'m':'f'):null}
+function clinic(){var id=$('#clinic').value;for(var i=0;i<info.clinics.length;i++)if(info.clinics[i].id===id)return info.clinics[i];return null}
+function cleanNum(id){var e=$(id);var v=A2L(e.value).replace(/\D/g,'');if(e.value!==v)e.value=v;return v}
+
+/* هل اليوم يقبل هذا المريض؟ (نفس منطق الخادم، والخادم هو الحكم النهائي) */
+function dayAllows(d,c){
+  var cat=catOf($('#rank').value),gen=genOf(cleanNum('#nid')),vt=$('#vtype').value;
+  if(cat&&d.k.indexOf(cat)<0)return {ok:false,why:'مخصص لـ '+d.k.map(function(x){return CATL[x]}).join(' و ')};
+  if(gen&&d.g!=='a'&&d.g!==gen)return {ok:false,why:d.g==='m'?'رجال فقط':'نساء فقط'};
+  if(vt&&d.t){var tt=d.t.filter(function(x){return c.types.indexOf(x)>=0});if(tt.length&&tt.indexOf(vt)<0)return {ok:false,why:'مخصص لـ '+tt.join(' و ')}}
+  return {ok:true};
+}
+var salSeq=0,salTimer=null;
+function chips(box,list,c,emptyMsg){
+  box.textContent='';
+  if(!list.length){box.appendChild(el('div',{class:'empty',text:emptyMsg}));return}
+  var wrap=el('div',{class:'days'});
+  list.forEach(function(d){
+    var full=d.left<=0;
+    var b=el('button',{type:'button',class:'day'+(d.left>0&&d.left<=3?' low':''),'aria-pressed':String(pick===d.d)},[
+      el('b',{text:fmtShort(d.d)}),el('small',{text:DOW[pd(d.d).getDay()]}),
+      el('small',{text:full?'مكتمل':(d.left<=3?'متبقي '+d.left+' فقط':'متاح')})]);
+    if(full)b.disabled=true;
+    b.addEventListener('click',function(){pick=d.d;drawDays()});
+    wrap.appendChild(b);
+  });
+  box.appendChild(wrap);
+}
+function salReady(){
+  var cat=catOf($('#rank').value),civ=(cat==='m'||cat==='c');
+  return !!($('#rank').value&&nidOk(cleanNum('#nid'))&&$('#vtype').value&&(civ||cleanNum('#mil').length>=3));
+}
+function drawSalDays(c){
+  var box=$('#days');
+  if(!c.types.length||!$('#vtype').value){box.textContent='';box.appendChild(el('div',{class:'empty',text:'اختر نوع الحجز أولًا.'}));pick=null;return}
+  if(!salReady()){box.textContent='';box.appendChild(el('div',{class:'empty',text:'اكتب الرتبة والرقم القومي والرقم العسكري (بيانات المريض أعلاه) لعرض الأيام المسموحة له.'}));pick=null;return}
+  var my=++salSeq;box.textContent='';box.appendChild(el('div',{class:'empty',text:'جارٍ تحميل الأيام المتاحة…'}));
+  clearTimeout(salTimer);
+  salTimer=setTimeout(async function(){
+    try{
+      var j=await post('/pub/saldays',{rank:$('#rank').value,nid:cleanNum('#nid'),mil:cleanNum('#mil'),rel:$('#rel').value,vtype:$('#vtype').value});
+      if(my!==salSeq)return;
+      if(pick&&!j.days.some(function(d){return d.d===pick}))pick=null;
+      chips(box,j.days,c,'لا توجد أيام مرتبات متاحة لهذا المريض في الفترة القادمة (حسب الرتبة وشهر الصرف). تواصل مع الاستقبال.');
+    }catch(e){if(my===salSeq){box.textContent='';box.appendChild(el('div',{class:'msg e',text:e.message}))}}
+  },350);
+}
+function drawDays(){
+  var box=$('#days'),c=clinic();$('#e-day').textContent='';
+  if(!c){box.textContent='';box.appendChild(el('div',{class:'empty',text:'اختر العيادة لعرض الأيام المتاحة.'}));pick=null;return}
+  if(c.sal)return drawSalDays(c);
+  if(c.types.length&&!$('#vtype').value){box.textContent='';box.appendChild(el('div',{class:'empty',text:'اختر نوع الحجز أولًا.'}));pick=null;return}
+  var list=c.days.filter(function(d){return dayAllows(d,c).ok});
+  if(pick&&!list.some(function(d){return d.d===pick&&d.left>0}))pick=null;
+  chips(box,list,c,'لا توجد أيام متاحة لهذه العيادة تناسب بيانات المريض في الفترة القادمة.');
+}
+function onRank(){
+  var cat=catOf($('#rank').value),civ=(cat==='m'||cat==='c');
+  $('#mil-w').hidden=false;
+  $('#mil-l').className=civ?'':'req';
+  $('#mil-h').textContent=civ?'غير مطلوب للمدني. اكتبه إن كان لديك.':($('#rel').value&&$('#rel').value!=='شخصه'?'اكتب الرقم العسكري للمنتفع صاحب الحق في العلاج، والرتبة هي رتبته.':'الرقم العسكري المدوّن على بطاقة العلاج.');
+  drawDays();
+}
+function onClinic(){
+  var c=clinic();pick=null;
+  var vw=$('#vt-w'),vs=$('#vtype');vs.textContent='';
+  if(c&&c.types.length){vs.appendChild(el('option',{value:'',text:'اختر نوع الحجز'}));c.types.forEach(function(t){vs.appendChild(el('option',{value:t,text:t}))});vw.hidden=false}
+  else{vw.hidden=true}
+  drawDays();
+}
+function setErr(id,t){var e=$('#e-'+id);if(e)e.textContent=t||'';var i=$('#'+id);if(i)i.classList.toggle('bad',!!t)}
+function nidOk(n){
+  if(!/^[23]\d{13}$/.test(n))return false;
+  var y=(n[0]==='2'?1900:2000)+ +n.slice(1,3),m=+n.slice(3,5),d=+n.slice(5,7),g=+n.slice(7,9),t=new Date(y,m-1,d);
+  if(t.getFullYear()!==y||t.getMonth()!==m-1||t.getDate()!==d||t>new Date())return false;
+  return (g>=1&&g<=35)||g===88;
+}
+function validate(){
+  var ok=true,bad=function(id,t){setErr(id,t);ok=false};
+  ['name','nid','mil','phone','day','svc','arm','home','med'].forEach(function(k){setErr(k,'')});
+  var cat=catOf($('#rank').value),civ=(cat==='m'||cat==='c');
+  if(!$('#rel').value){ok=false;$('#rel').focus()}
+  if(!$('#rank').value){ok=false;$('#rank-h').textContent='اختر الرتبة';$('#rank-h').style.color='var(--bad)'}else{$('#rank-h').textContent='';}
+  if(!/^[؀-ۿa-zA-Z .'-]{3,60}$/.test($('#name').value.replace(/\s+/g,' ').trim()))bad('name','اكتب اسم المريض بالحروف (3 أحرف على الأقل)');
+  if(!nidOk(cleanNum('#nid')))bad('nid','الرقم القومي غير صحيح (14 رقمًا)');
+  var mil=cleanNum('#mil');
+  if(!civ&&!/^\d{3,12}$/.test(mil))bad('mil','اكتب الرقم العسكري (أرقام فقط)');
+  if(!/^01[0125]\d{8}$/.test(cleanNum('#phone')))bad('phone','رقم الموبايل غير صحيح (11 رقمًا يبدأ بـ 01)');
+  var F=info.fields;
+  if(F.svc==='req'&&!$('#svc').value)bad('svc','اختر الحالة: خدمة أو معاش');
+  if(F.arm==='req'&&!$('#arm').value)bad('arm','اختر السلاح');
+  var hm=cleanNum('#home');
+  if(F.home!=='off'&&hm&&!/^\d{6,11}$/.test(hm))bad('home','رقم تليفون المنزل غير صحيح');
+  if(F.home==='req'&&!hm)bad('home','اكتب رقم تليفون المنزل');
+  if(F.med==='req'&&!cleanNum('#med'))bad('med','اكتب الرقم الطبي');
+  var c=clinic();
+  if(!c){ok=false;$('#clinic').focus()}
+  else if(c.types.length&&!$('#vtype').value){ok=false;$('#vtype').focus()}
+  else if(!pick)bad('day','اختر اليوم المناسب');
+  return ok;
+}
+function showErr(box,t){box.textContent=t;box.hidden=!t;if(t)box.scrollIntoView({block:'center',behavior:'smooth'})}
+async function post(url,body){
+  var r=await fetch((window.BOOK_API||'')+url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  var j=null;try{j=await r.json()}catch(e){}
+  if(!r.ok||!j||j.error){throw new Error((j&&j.error)||'تعذر الاتصال بالخادم، حاول مرة أخرى')}
+  return j;
+}
+async function submit(){
+  if(busy)return;showErr($('#err'),'');
+  if(!validate()){var f=document.querySelector('.bad');if(f)f.scrollIntoView({block:'center',behavior:'smooth'});return}
+  busy=true;var btn=$('#go');btn.disabled=true;btn.textContent='جارٍ الحجز…';
+  try{
+    var c=clinic();
+    var j=await post('/pub/book',{hp:document.querySelector('[name=hp]').value,rel:$('#rel').value,rank:$('#rank').value,name:$('#name').value,nid:cleanNum('#nid'),mil:cleanNum('#mil'),phone:cleanNum('#phone'),med:cleanNum('#med'),svc:$('#svc').value,arm:$('#arm').value,home:cleanNum('#home'),clinicId:c.id,vtype:$('#vtype').value,date:pick});
+    showTicket(j.ticket,true);
+    try{localStorage.setItem('cb-last',JSON.stringify(j.ticket))}catch(e){}
+  }catch(e){showErr($('#err'),e.message);loadInfo(true)}
+  finally{busy=false;btn.disabled=false;btn.textContent='تأكيد الحجز'}
+}
+function ticketEl(t,fresh){
+  var wrap=el('div',{class:'ticket'});
+  wrap.appendChild(el('div',{class:'th'},[el('b',{text:'مستشفى طنطا العسكري'}),el('span',{text:fresh?'تم الحجز ✓':'حجز مؤكد'})]));
+  var b=el('div',{class:'tb'});
+  b.appendChild(el('div',{class:'big'},[
+    el('div',{},[el('small',{text:'ميعاد الحضور'}),el('strong',{text:t.arrival})]),
+    el('div',{},[el('small',{text:'رقمك في الدور'}),el('strong',{text:String(t.seq)})])]));
+  var kv=el('div',{class:'kv'});
+  [['المريض',t.name],['العيادة',t.clinic+(t.vtype?' · '+t.vtype:'')],['اليوم',fmtLong(t.date)]].forEach(function(p){kv.appendChild(el('span',{text:p[0]}));kv.appendChild(el('span',{text:p[1]}))});
+  b.appendChild(kv);
+  if(t.att==='x')b.appendChild(el('div',{class:'msg e',text:'تم تسجيل عدم الحضور لهذا الحجز.'}));
+  wrap.appendChild(b);return wrap;
+}
+function showTicket(t,fresh){
+  var v=$('#v-ticket');v.textContent='';
+  v.appendChild(el('div',{class:'card ok noprint',text:'تم تأكيد حجزك. احتفظ بهذه الصفحة أو صوّرها بالشاشة.'}));
+  v.appendChild(ticketEl(t,fresh));
+  if(info&&info.note)v.appendChild(el('div',{class:'note',text:info.note}));
+  v.appendChild(el('div',{class:'note',text:'ميعاد الحضور المذكور متوقع حسب رقمك في الدور في كشف العيادة.'}));
+  var pr=el('button',{class:'btn sec noprint',type:'button',text:'طباعة / حفظ PDF'});pr.addEventListener('click',function(){window.print()});v.appendChild(pr);
+  var nw=el('button',{class:'btn sec noprint',type:'button',text:'حجز جديد'});nw.addEventListener('click',function(){resetAll();show('new')});v.appendChild(nw);
+  show('ticket');window.scrollTo(0,0);
+}
+function resetAll(){
+  ['name','nid','mil','phone','med','home'].forEach(function(k){$('#'+k).value='';setErr(k,'')});$('#svc').value='';$('#arm').value='';
+  $('#rel').value='شخصه';$('#rank').value='';$('#clinic').value='';pick=null;$('#nid-n').textContent='0';showErr($('#err'),'');onRank();onClinic();
+}
+function show(w){
+  ['new','ticket','find'].forEach(function(k){$('#v-'+k).hidden=(k!==w)});
+  $('#t-new').setAttribute('aria-selected',String(w==='new'||w==='ticket'));
+  $('#t-find').setAttribute('aria-selected',String(w==='find'));
+}
+async function lookup(){
+  showErr($('#q-err'),'');var res=$('#q-res');res.textContent='';
+  var b=$('#q-go');b.disabled=true;
+  try{
+    var j=await post('/pub/lookup',{nid:A2L($('#q-nid').value).replace(/\D/g,''),phone:A2L($('#q-phone').value).replace(/\D/g,'')});
+    if(!j.items.length)res.appendChild(el('div',{class:'card empty',text:'لا توجد مواعيد قادمة بهذه البيانات.'}));
+    j.items.forEach(function(t){res.appendChild(ticketEl(t,false))});
+  }catch(e){showErr($('#q-err'),e.message)}
+  finally{b.disabled=false}
+}
+function fill(){
+  var rs=$('#rel');rs.textContent='';info.rels.forEach(function(r){rs.appendChild(el('option',{value:r,text:r}))});rs.value='شخصه';
+  var ks=$('#rank');info.ranks.forEach(function(r){ks.appendChild(el('option',{value:r.n,text:r.n}))});
+  var cs=$('#clinic');cs.textContent='';cs.appendChild(el('option',{value:'',text:'اختر العيادة'}));
+  info.clinics.forEach(function(c){cs.appendChild(el('option',{value:c.id,text:c.name}))});
+  var as=$('#arm');info.arms.forEach(function(a){as.appendChild(el('option',{value:a,text:a}))});
+  ['svc','arm','home','med'].forEach(function(k){var w=$('#'+k+'-w'),st=info.fields[k];w.hidden=(st==='off');var l=w.querySelector('label');if(l){l.className=(st==='req'?'req':'')}});
+  if(info.note){$('#note').textContent=info.note;$('#note').hidden=false}
+}
+async function loadInfo(refreshOnly){
+  try{
+    var r=await fetch((window.BOOK_API||'')+'/pub/info',{cache:'no-store'});var j=await r.json();
+    if(!j.enabled){$('#loading').hidden=true;$('#closed').hidden=false;$('#app').hidden=true;return}
+    info=j;
+    if(refreshOnly){
+      var cur=$('#clinic').value;var cs=$('#clinic');cs.textContent='';cs.appendChild(el('option',{value:'',text:'اختر العيادة'}));
+      info.clinics.forEach(function(c){cs.appendChild(el('option',{value:c.id,text:c.name}))});cs.value=cur;drawDays();return;
+    }
+    fill();$('#loading').hidden=true;$('#app').hidden=false;onRank();
+  }catch(e){$('#loading').textContent='تعذر تحميل الصفحة. تأكد من الاتصال بشبكة المستشفى وأعد المحاولة.'}
+}
+$('#rank').addEventListener('change',onRank);
+$('#rel').addEventListener('change',onRank);
+$('#clinic').addEventListener('change',onClinic);
+$('#vtype').addEventListener('change',drawDays);
+$('#nid').addEventListener('input',function(){var v=cleanNum('#nid');$('#nid-n').textContent=String(v.length);setErr('nid','');if(v.length===14||v.length===13)drawDays()});
+['mil','phone','med','home'].forEach(function(k){$('#'+k).addEventListener('input',function(){cleanNum('#'+k);setErr(k,'');if(k==='mil')drawDays()})});
+$('#name').addEventListener('input',function(){setErr('name','')});
+$('#go').addEventListener('click',submit);
+$('#q-go').addEventListener('click',lookup);
+$('#t-new').addEventListener('click',function(){show('new')});
+$('#t-find').addEventListener('click',function(){show('find')});
+$('#form').addEventListener('submit',function(e){e.preventDefault()});
+loadInfo(false);
+})();
+</script>
+</body>
+</html>
