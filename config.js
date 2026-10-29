@@ -1,4 +1,5 @@
-window.BOOK_API = 'https://referenced-postcard-times-pick.trycloudflare.com';
+
+window.BOOK_API = 'https://scanned-thumb-speaks-low.trycloudflare.com';
 
 
 
