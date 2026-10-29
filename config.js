@@ -1,1 +1,2 @@
-window.BOOK_API = 'https://avenue-allowed-dod-ntsc.trycloudflare.com';
+window.BOOK_API = 'https://stretch-provided-renaissance-msie.trycloudflare.com';
+
