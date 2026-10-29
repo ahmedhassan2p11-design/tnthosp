@@ -1,1 +1,1 @@
-window.BOOK_API = 'https://decades-vpn-laptops-smoke.trycloudflare.com';
+window.BOOK_API = 'https://avenue-allowed-dod-ntsc.trycloudflare.com';
